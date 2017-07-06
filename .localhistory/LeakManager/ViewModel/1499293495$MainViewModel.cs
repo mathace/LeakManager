@@ -1,7 +1,5 @@
 ﻿using GalaSoft.MvvmLight;
 using LeakManager.Model;
-using System;
-using System.Collections.ObjectModel;
 
 namespace LeakManager.ViewModel
 {
@@ -20,13 +18,22 @@ namespace LeakManager.ViewModel
         /// </summary>
         public const string WelcomeTitlePropertyName = "WelcomeTitle";
 
-        
-        private ObservableCollection<Leak> _leaks;
-       
-        public ObservableCollection<Leak> Leaks
+        private string _welcomeTitle = string.Empty;
+
+        /// <summary>
+        /// Gets the WelcomeTitle property.
+        /// Changes to that property's value raise the PropertyChanged event. 
+        /// </summary>
+        public string WelcomeTitle
         {
-             get{ return _leaks; }
-            set { Set(ref _leaks, value); }
+            get
+            {
+                return _welcomeTitle;
+            }
+            set
+            {
+                Set(ref _welcomeTitle, value);
+            }
         }
 
         /// <summary>
@@ -35,8 +42,8 @@ namespace LeakManager.ViewModel
         public MainViewModel(IDataService dataService)
         {
             _dataService = dataService;
-            _dataService.GetLeaks(
-                (leaks, error) =>
+            _dataService.GetData(
+                (item, error) =>
                 {
                     if (error != null)
                     {
@@ -44,11 +51,8 @@ namespace LeakManager.ViewModel
                         return;
                     }
 
-                    Leaks = leaks;
+                    WelcomeTitle = item.Title;
                 });
-
-            
-
         }
 
         ////public override void Cleanup()

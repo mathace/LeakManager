@@ -28,8 +28,8 @@
                                 <DataTemplate>
                                     <Grid Margin="30,30,0,0" Background="#FFDDFFCD">
                                         <Grid.RowDefinitions>
-                                            <RowDefinition Height="30"/>
-                                            <RowDefinition Height="30"/>
+                                            <RowDefinition Height="50"/>
+                                            <RowDefinition Height="50"/>
                                             <RowDefinition Height="*"/>
                                         </Grid.RowDefinitions>
                                         <TextBlock Text="{Binding CreateDate}" Grid.Row="0"/>
