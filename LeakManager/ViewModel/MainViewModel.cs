@@ -1,41 +1,42 @@
 ﻿using GalaSoft.MvvmLight;
+using GalaSoft.MvvmLight.Command;
 using LeakManager.Model;
 using System;
 using System.Collections.ObjectModel;
 
 namespace LeakManager.ViewModel
 {
-    /// <summary>
-    /// This class contains properties that the main View can data bind to.
-    /// <para>
-    /// See http://www.mvvmlight.net
-    /// </para>
-    /// </summary>
     public class MainViewModel : ViewModelBase
     {
-        private readonly IDataService _dataService;
+        private readonly IDataService _dataService;       
+        private ObservableCollection<Leak> _leaksCollection;
+        private Leak _leakInfo;
+        private Comment _commentInfo;
 
-        /// <summary>
-        /// The <see cref="WelcomeTitle" /> property's name.
-        /// </summary>
-        public const string WelcomeTitlePropertyName = "WelcomeTitle";
+        public RelayCommand AddLeakCommand { get; set; }
 
-        
-        private ObservableCollection<Leak> _leaks;
-       
         public ObservableCollection<Leak> Leaks
         {
-             get{ return _leaks; }
-            set { Set(ref _leaks, value); }
+             get{ return _leaksCollection; }
+            set { Set(ref _leaksCollection, value); }
         }
 
-        /// <summary>
-        /// Initializes a new instance of the MainViewModel class.
-        /// </summary>
+        public Leak LeakInfo
+        {
+            get { return _leakInfo; }
+            set { Set(ref _leakInfo, value); }
+        }
+
+        public Comment CommentInfo
+        {
+            get { return _commentInfo; }
+            set { Set(ref _commentInfo, value); }
+        }
+
         public MainViewModel(IDataService dataService)
         {
             _dataService = dataService;
-            _dataService.GetLeaks(
+            _dataService.LoadLeaks(
                 (leaks, error) =>
                 {
                     if (error != null)
@@ -43,19 +44,41 @@ namespace LeakManager.ViewModel
                         // Report error here
                         return;
                     }
-
                     Leaks = leaks;
                 });
 
-            
-
+            AddLeakCommand = new RelayCommand(AddLeak);
+            LeakInfo = new Leak();
+            CommentInfo = new Comment();
         }
 
-        ////public override void Cleanup()
-        ////{
-        ////    // Clean up if needed
+        public void AddLeak()
+        {
+            var tempLeak = new Leak()
+            {
+                CreateDate = LeakInfo.CreateDate,
+                Title = LeakInfo.Title,
+                Comments = new ObservableCollection<Comment>()
+            };
+            var tempComment = new Comment()
+            {
+                CreateDate = LeakInfo.CreateDate,
+                Text = CommentInfo.Text
+            };
+            tempLeak.Comments.Add(tempComment);
+            Leaks.Add(tempLeak);
+            _dataService.SaveLeaks(Leaks);
+            RaisePropertyChanged("Leaks");
+            LeakInfo = new Leak();
+            CommentInfo = new Comment();
+        }
 
-        ////    base.Cleanup();
-        ////}
+        /*
+        public override void Cleanup()
+        {
+            // Clean up if needed
+            base.Cleanup();
+        }
+        */
     }
 }
