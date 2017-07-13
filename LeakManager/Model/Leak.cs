@@ -10,10 +10,11 @@ namespace LeakManager.Model
     [Serializable()]
     public class Leak
     {
-        public DateTime CreateDate { get; set; }
+        public DateTime CreateDate { get; set; } = DateTime.Now;
         public string Title { get; set; }
         public ObservableCollection<Comment> Comments { get; set; }
     }
+
     [Serializable()]
     public class Comment
     {

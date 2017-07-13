@@ -7,7 +7,7 @@ namespace LeakManager.Design
 {
     public class DesignDataService : IDataService
     {
-        public void GetLeaks(Action<ObservableCollection<Leak>, Exception> callback)
+        public void LoadLeaks(Action<ObservableCollection<Leak>, Exception> callback)
         {
             // Use this to create design time data
 
@@ -15,7 +15,7 @@ namespace LeakManager.Design
             //callback(item, null);
         }
 
-        public void SetLeaks(ObservableCollection<Leak> leaks)
+        public void SaveLeaks(ObservableCollection<Leak> leaks)
         {
             throw new NotImplementedException();
         }

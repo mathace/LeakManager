@@ -8,7 +8,7 @@ namespace LeakManager.Model
 {
     public interface IDataService
     {
-        void GetLeaks(Action<ObservableCollection<Leak>, Exception> callback);
-        void SetLeaks(ObservableCollection<Leak> leaks);
+        void LoadLeaks(Action<ObservableCollection<Leak>, Exception> callback);
+        void SaveLeaks(ObservableCollection<Leak> leaks);
     }
 }
