@@ -12,15 +12,6 @@
         <!--Global View Model Locator-->
         <vm:ViewModelLocator x:Key="Locator"
                              d:IsDataSource="True" />
-
-        <Style x:Key="InputBlock" TargetType="TextBlock">
-            <Setter Property="FontSize" Value="20"/>
-            <Setter Property="FontWeight" Value="Bold"/>
-        </Style>
-        <Style x:Key="InputBox" TargetType="TextBox">
-            <Setter Property="FontSize" Value="20"></Setter>
-            <Setter Property="FontWeight" Value="Bold"></Setter>
-        </Style>
     </Application.Resources>
     
 </Application>
